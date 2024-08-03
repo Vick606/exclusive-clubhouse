@@ -1,13 +1,13 @@
 require('dotenv').config();
 const express = require('express');
 const session = require('express-session');
-const passport = require('passport');
+const passport = require('./config/passport');
 const flash = require('connect-flash');
 const path = require('path');
 
 const authRoutes = require('./routes/authRoutes');
 const messageRoutes = require('./routes/messageRoutes');
-const userRoutes = require('./routes/userRoutes');
+const errorHandler = require('./middleware/errorMiddleware');
 
 const app = express();
 
@@ -38,7 +38,20 @@ app.use((req, res, next) => {
 // Routes
 app.use('/', authRoutes);
 app.use('/messages', messageRoutes);
-app.use('/users', userRoutes);
+
+// Home route
+app.get('/', async (req, res) => {
+  const Message = require('./models/message');
+  try {
+    const messages = await Message.getAll();
+    res.render('index', { messages });
+  } catch (err) {
+    next(err);
+  }
+});
+
+// Error handling
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
