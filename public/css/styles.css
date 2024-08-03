@@ -103,3 +103,16 @@ footer {
     bottom: 0;
     width: 100%;
 }
+
+.error-message {
+    color: #721c24;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    border-radius: 4px;
+    padding: 5px 10px;
+    margin-top: 5px;
+}
+
+.error {
+    border-color: #dc3545;
+}
