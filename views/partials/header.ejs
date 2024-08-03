@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exclusive Clubhouse</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <% if (user) { %>
+                    <li><a href="/messages/create">Create Message</a></li>
+                    <% if (!user.is_member) { %>
+                        <li><a href="/join-club">Join Club</a></li>
+                    <% } %>
+                    <li><a href="/logout">Logout</a></li>
+                <% } else { %>
+                    <li><a href="/login">Login</a></li>
+                    <li><a href="/signup">Sign Up</a></li>
+                <% } %>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <% if (locals.error && error.length > 0) { %>
+            <div class="alert alert-danger"><%= error %></div>
+        <% } %>
+        <% if (locals.success && success.length > 0) { %>
+            <div class="alert alert-success"><%= success %></div>
+        <% } %>
