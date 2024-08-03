@@ -1,0 +1,33 @@
+<%- include('partials/header') %>
+
+<h1>Welcome to the Exclusive Clubhouse</h1>
+
+<% if (user) { %>
+  <p>Welcome, <%= user.first_name %>!</p>
+  <% if (!user.is_member) { %>
+    <a href="/join-club">Join the Club</a>
+  <% } %>
+  <a href="/messages/create">Create a New Message</a>
+<% } else { %>
+  <a href="/login">Log In</a> or <a href="/signup">Sign Up</a>
+<% } %>
+
+<h2>Messages</h2>
+
+<% messages.forEach(function(message) { %>
+  <div class="message">
+    <h3><%= message.title %></h3>
+    <p><%= message.text %></p>
+    <% if (user && user.is_member) { %>
+      <p>By: <%= message.first_name %> <%= message.last_name %></p>
+      <p>Posted: <%= message.created_at.toLocaleDateString() %></p>
+    <% } %>
+    <% if (user && user.is_admin) { %>
+      <form action="/messages/delete/<%= message.id %>" method="POST">
+        <button type="submit">Delete</button>
+      </form>
+    <% } %>
+  </div>
+<% }); %>
+
+<%- include('partials/footer') %>
