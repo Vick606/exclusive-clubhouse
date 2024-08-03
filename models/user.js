@@ -21,6 +21,12 @@ const User = {
     return result.rows[0];
   },
 
+  findById: async (id) => {
+    const query = 'SELECT * FROM users WHERE id = $1';
+    const result = await db.query(query, [id]);
+    return result.rows[0];
+  },
+
   updateMemberStatus: async (userId, isMember) => {
     const query = 'UPDATE users SET is_member = $1 WHERE id = $2 RETURNING *';
     const result = await db.query(query, [isMember, userId]);
