@@ -8,6 +8,7 @@ const path = require('path');
 const authRoutes = require('./routes/authRoutes');
 const messageRoutes = require('./routes/messageRoutes');
 const errorHandler = require('./middleware/errorMiddleware');
+const Message = require('./models/message');
 
 const app = express();
 
@@ -39,16 +40,15 @@ app.use((req, res, next) => {
 app.use('/', authRoutes);
 app.use('/messages', messageRoutes);
 
-// Home route
-app.get('/', async (req, res) => {
-  const Message = require('./models/message');
-  try {
-    const messages = await Message.getAll();
-    res.render('index', { messages });
-  } catch (err) {
-    next(err);
-  }
-});
+/// Home route
+app.get('/', async (req, res, next) => {
+    try {
+      const messages = await Message.getAll();
+      res.render('index', { messages });
+    } catch (err) {
+      next(err);
+    }
+  });
 
 // Error handling
 app.use(errorHandler);
